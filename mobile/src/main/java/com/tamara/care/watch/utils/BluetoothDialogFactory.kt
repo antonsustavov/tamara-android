@@ -8,9 +8,6 @@ import com.tamara.care.watch.R
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * Created by ArtemLampa on 28.09.2021.
- */
 @Singleton
 class BluetoothDialogFactory @Inject constructor() {
     fun createDialog(type: DialogType, activity: Activity): MaterialAlertDialogBuilder {

@@ -6,10 +6,6 @@ import okhttp3.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * Created by ArtemLampa on 21.10.2021.
- */
-
 @Singleton
 class LanguageInterceptor @Inject constructor(
     private val sharedPreferencesManager: SharedPreferencesManager

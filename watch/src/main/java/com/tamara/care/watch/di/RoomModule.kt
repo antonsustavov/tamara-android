@@ -11,10 +11,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-/**
- * Created by ArtemLampa on 25.10.2021.
- */
-
 @InstallIn(SingletonComponent::class)
 @Module
 object RoomModule {

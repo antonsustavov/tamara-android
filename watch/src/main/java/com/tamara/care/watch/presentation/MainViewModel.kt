@@ -9,10 +9,6 @@ import com.tamara.care.watch.repo.BeaconInfoRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-/**
- * Created by ArtemLampa on 06.10.2021.
- */
-
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val beaconInfoRepo: BeaconInfoRepo
