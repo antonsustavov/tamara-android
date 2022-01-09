@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Victor/Downloads/Tamara/tamara-home-care-android/mobile/src/main/res/drawable/ic_bathroom.xml" value="0.15572916666666667" />
+        <entry key="..\:/Users/Victor/Downloads/Tamara/tamara-home-care-android/mobile/src/main/res/drawable/ic_bedroom.xml" value="0.15572916666666667" />
+        <entry key="..\:/Users/Victor/Downloads/Tamara/tamara-home-care-android/mobile/src/main/res/drawable/ic_hall_foreground.xml" value="0.2078125" />
+        <entry key="..\:/Users/Victor/Downloads/Tamara/tamara-home-care-android/mobile/src/main/res/drawable/ic_lab_background.xml" value="0.15572916666666667" />
+        <entry key="..\:/Users/Victor/Downloads/Tamara/tamara-home-care-android/mobile/src/main/res/drawable/ic_lab_foreground.xml" value="0.10400000000000001" />
+        <entry key="..\:/Users/Victor/Downloads/Tamara/tamara-home-care-android/mobile/src/main/res/drawable/ic_laboratory_background.xml" value="0.15572916666666667" />
+        <entry key="..\:/Users/Victor/Downloads/Tamara/tamara-home-care-android/mobile/src/main/res/drawable/ic_laboratory_foreground.xml" value="0.15572916666666667" />
+        <entry key="..\:/Users/Victor/Downloads/Tamara/tamara-home-care-android/mobile/src/main/res/drawable/ic_meeting_office_foreground.xml" value="0.2078125" />
+        <entry key="..\:/Users/Victor/Downloads/Tamara/tamara-home-care-android/mobile/src/main/res/drawable/ic_office_foreground.xml" value="0.2078125" />
+        <entry key="..\:/Users/Victor/Downloads/Tamara/tamara-home-care-android/mobile/src/main/res/mipmap-anydpi-v26/ic_lab.xml" value="0.2078125" />
+        <entry key="mobile/src/main/res/layout/activity_main.xml" value="0.3007246376811594" />
+        <entry key="mobile/src/main/res/layout/fragment_dialog_bottom_filter.xml" value="0.3007246376811594" />
+        <entry key="mobile/src/main/res/layout/fragment_dialog_setup_beacon.xml" value="0.3007246376811594" />
+        <entry key="mobile/src/main/res/layout/fragment_dialog_setup_transmitter.xml" value="0.3007246376811594" />
+        <entry key="watch/src/main/res/drawable/ic_launcher_foreground.xml" value="1.8857142857142857" />
+        <entry key="watch/src/main/res/layout/activity_main.xml" value="1.075657894736842" />
+        <entry key="watch/src/main/res/layout/fragment_transmitter.xml" value="1.0921052631578947" />
+        <entry key="watch/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="1.8857142857142857" />
+        <entry key="watch/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="1.8857142857142857" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
