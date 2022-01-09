@@ -18,6 +18,8 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.tamara.care.watch.R
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.common.BitMatrix
 import com.tamara.care.watch.data.eventBus.EventServiceDie
 import com.tamara.care.watch.data.eventBus.MessageEventBus
 import com.tamara.care.watch.databinding.FragmentMainBinding
@@ -30,6 +32,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import android.graphics.Bitmap
+import android.graphics.Color
+
+import com.google.zxing.MultiFormatWriter
+
+import com.google.zxing.WriterException
+import android.widget.ImageView
+
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
@@ -45,6 +55,7 @@ class MainFragment : Fragment() {
     private val compositeDisposable = CompositeDisposable()
 
     private lateinit var binding: FragmentMainBinding
+    lateinit var bitmap: Bitmap
 
     @Inject
     lateinit var sharedPreferencesManager: SharedPreferencesManager
@@ -55,6 +66,7 @@ class MainFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         binding.lifecycleOwner = this
+
         return binding.root
     }
 
@@ -102,7 +114,35 @@ class MainFragment : Fragment() {
             Handler(Looper.getMainLooper()).postDelayed({
                 updateBackground()
             }, 1000L)
+            createQrCode()
         }
+
+    }
+
+    private fun createQrCode() {
+        bitmap = TextToImageEncode(sharedPreferencesManager.transmitterId)
+        binding.imageView.setImageBitmap(bitmap)
+    }
+
+    @Throws(WriterException::class)
+    fun TextToImageEncode(Value: String?): Bitmap {
+        val bitMatrix: BitMatrix
+        bitMatrix = MultiFormatWriter().encode(Value, BarcodeFormat.QR_CODE, 120, 120, null)
+
+        val bitMatrixWidth = bitMatrix.width
+        val bitMatrixHeight = bitMatrix.height
+        val pixels = IntArray(bitMatrixWidth * bitMatrixHeight)
+        for (y in 0 until bitMatrixHeight) {
+            val offset = y * bitMatrixWidth
+            for (x in 0 until bitMatrixWidth) {
+                pixels[offset + x] =
+                    if (bitMatrix[x, y]) Color.BLACK else Color.WHITE
+            }
+        }
+        val bitmap: Bitmap =
+            Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444)
+        bitmap.setPixels(pixels, 0, 120, 0, 0, bitMatrixWidth, bitMatrixHeight)
+        return bitmap
     }
 
     private fun updateBackground() {
@@ -115,6 +155,7 @@ class MainFragment : Fragment() {
             )
             binding.serviceStatus.text = requireContext().getString(R.string.service_is_active)
             binding.restart.visibility = View.GONE
+            binding.imageView.visibility = View.VISIBLE
         } else {
             binding.background.setBackgroundColor(
                 requireContext().resources.getColor(
