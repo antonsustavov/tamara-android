@@ -1,8 +1,5 @@
 package com.tamara.care.watch.data.entity
 
-/**
- * Created by ArtemLampa on 25.10.2021.
- */
 data class WatchInfoRequestEntity(
     val gyroscope: String,
     val heartRate: String,

@@ -11,10 +11,6 @@ import com.tamara.care.watch.repo.TransmitterRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-/**
- * Created by ArtemLampa on 12.10.2021.
- */
-
 @HiltViewModel
 class PatientViewModel @Inject constructor(
     private val parametersRepo: ParametersRepo,

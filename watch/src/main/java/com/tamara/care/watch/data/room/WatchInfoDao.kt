@@ -6,10 +6,6 @@ import androidx.room.OnConflictStrategy
 
 import androidx.room.Query
 
-/**
- * Created by ArtemLampa on 25.10.2021.
- */
-
 @Dao
 interface WatchInfoDao {
 

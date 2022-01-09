@@ -4,10 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-/**
- * Created by ArtemLampa on 25.10.2021.
- */
-
 @Entity(tableName = "watchInfo")
 data class WatchInfoEntity(
     @PrimaryKey(autoGenerate = false)

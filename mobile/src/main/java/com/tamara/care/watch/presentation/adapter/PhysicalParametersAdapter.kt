@@ -8,9 +8,6 @@ import com.tamara.care.watch.databinding.ItemPhysicalParameterBinding
 
 import javax.inject.Inject
 
-/**
- * Created by ArtemLampa on 12.10.2021.
- */
 class PhysicalParametersAdapter @Inject constructor() : RecyclerView.Adapter<PhysicalParametersAdapter.PhysicalParametersViewHolder>() {
 
     var physicalParametersList = arrayListOf<ParametersEntity>()
