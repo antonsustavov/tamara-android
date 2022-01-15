@@ -10,6 +10,7 @@ import com.tamara.care.watch.data.room.WatchInfoDao
 import com.tamara.care.watch.data.room.WatchInfoEntity
 import com.tamara.care.watch.manager.SharedPreferencesManager
 import com.tamara.care.watch.repo.base.BaseRepo
+import com.tamara.care.watch.utils.BeepHelper
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,7 +18,8 @@ import javax.inject.Singleton
 class BeaconInfoRepo @Inject constructor(
     private var networkApi: NetworkApi,
     private var sharedPreferencesManager: SharedPreferencesManager,
-    private var watchInfoDao: WatchInfoDao
+    private var watchInfoDao: WatchInfoDao,
+    private var beepHelper: BeepHelper
 ) : BaseRepo() {
     private suspend fun sendBeaconInfo(beaconEntity: BeaconEntity): ModelState<BeaconEntity> {
         return try {
@@ -77,6 +79,8 @@ class BeaconInfoRepo @Inject constructor(
                                 return@forEach
                             }
                         }
+                    } else {
+//                        beepHelper.beep(1000);
                     }
                 }
 

@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.zxing.integration.android.IntentIntegrator
 import com.tamara.care.watch.R
 import com.tamara.care.watch.data.model.ModelState
 import com.tamara.care.watch.databinding.FragmentDialogSetupTransmitterBinding
@@ -18,7 +19,13 @@ import com.tamara.care.watch.presentation.setup.BeaconSetupFragment.Companion.EX
 import com.tamara.care.watch.presentation.setup.BeaconSetupFragment.Companion.EXTRA_UPDATE_TRANSMITTER
 import com.tamara.care.watch.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_dialog_setup_transmitter.*
 import javax.inject.Inject
+import android.app.Activity
+import android.content.ContextWrapper
+import android.content.Intent
+import com.journeyapps.barcodescanner.CaptureActivity
+
 
 @AndroidEntryPoint
 class TransmitterSetupDialogFragment : DialogFragment() {
@@ -33,6 +40,17 @@ class TransmitterSetupDialogFragment : DialogFragment() {
 
     @Inject
     lateinit var sharedPreferencesManager: SharedPreferencesManager
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null && result.contents != null) {
+            this.transmitterIdEditText.setText(result.contents.toString())
+        } else {
+            this.transmitterIdEditText.setText("show me QR codama pls")
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +70,7 @@ class TransmitterSetupDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
         setupClicks()
+        tryQrCodeScan()
     }
 
     private fun observeViewModel() {
@@ -95,4 +114,17 @@ class TransmitterSetupDialogFragment : DialogFragment() {
             }
         }
     }
+
+    private fun tryQrCodeScan() {
+            button.setOnClickListener {
+                var qrScanner = IntentIntegrator.forSupportFragment(this)
+                qrScanner.setPrompt("Scan QR Code")
+                qrScanner.setCameraId(0)
+                qrScanner.setOrientationLocked(true)
+                qrScanner.setBeepEnabled(true)
+                qrScanner.captureActivity = CaptureActivity::class.java
+                qrScanner.initiateScan()
+            }
+    }
+
 }

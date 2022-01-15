@@ -32,6 +32,7 @@ import com.tamara.care.watch.manager.NotificationManager
 import com.tamara.care.watch.manager.SharedPreferencesManager
 import com.tamara.care.watch.repo.BeaconInfoRepo
 import com.tamara.care.watch.repo.ParametersRepo
+import com.tamara.care.watch.utils.BeepHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,8 +51,8 @@ class TrackingService : LifecycleService(), SensorsDataService {
         val gyroscopeLiveData = MutableLiveData<String>()
         val accelerometerLiveData = MutableLiveData<String>()
         val beaconsLiveData = MutableLiveData<List<MTPeripheral>>()
-        const val LOCATION_UPDATE_INTERVAL = 1000000L
-        const val FASTEST_LOCATION_INTERVAL = 1000000L
+        const val LOCATION_UPDATE_INTERVAL = 10000L
+        const val FASTEST_LOCATION_INTERVAL = 10000L
         const val REQUEST_INTERVAL = 600000L
         const val REGISTER_LISTENER_INTERVAL = 580000L
         //        const val REGISTER_LISTENER_INTERVAL_DELAY = 20000L
@@ -87,6 +88,9 @@ class TrackingService : LifecycleService(), SensorsDataService {
 
     @Inject
     lateinit var parametersRepo: ParametersRepo
+
+    @Inject
+    lateinit var beepHelper: BeepHelper
 
 //    var repeatCount = 0
 
@@ -185,6 +189,8 @@ class TrackingService : LifecycleService(), SensorsDataService {
                             peripheralsList = info,
                             currentDateAndTime = getCurrentTimeString()
                         )
+                    } else {
+//                        beepHelper.beep(2000)
                     }
                 }
                 lifecycleScope.launch(Dispatchers.IO) {
@@ -333,6 +339,10 @@ class TrackingService : LifecycleService(), SensorsDataService {
         startForeground(NOTIFICATION_ID, currentNotification)
     }
 
+    private fun createStopNotification() {
+        stopForeground(true)
+    }
+
     override fun onSensorChanged(event: SensorEvent?) {
         when (event?.sensor?.type) {
             Sensor.TYPE_ACCELEROMETER -> {
@@ -378,6 +388,7 @@ class TrackingService : LifecycleService(), SensorsDataService {
 
     override fun onDestroy() {
         super.onDestroy()
+        stopService()
         isServiceTracking = false
         handler.removeCallbacks(runnableCode)
         handlerRegisterListener.removeCallbacks(runnableRegisterListeners)
