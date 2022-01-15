@@ -19,7 +19,6 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.tamara.care.watch.R
 import com.google.zxing.BarcodeFormat
-import com.google.zxing.common.BitMatrix
 import com.tamara.care.watch.data.eventBus.EventServiceDie
 import com.tamara.care.watch.data.eventBus.MessageEventBus
 import com.tamara.care.watch.databinding.FragmentMainBinding
@@ -35,10 +34,11 @@ import javax.inject.Inject
 import android.graphics.Bitmap
 import android.graphics.Color
 
-import com.google.zxing.MultiFormatWriter
-
 import com.google.zxing.WriterException
-import android.widget.ImageView
+import com.google.zxing.qrcode.QRCodeWriter
+import com.google.zxing.EncodeHintType
+import com.tamara.care.watch.utils.BeepHelper
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -59,6 +59,8 @@ class MainFragment : Fragment() {
 
     @Inject
     lateinit var sharedPreferencesManager: SharedPreferencesManager
+    @Inject
+    lateinit var beepHelper: BeepHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,34 +117,32 @@ class MainFragment : Fragment() {
                 updateBackground()
             }, 1000L)
             createQrCode()
+//            beepHelper.beep(2000)
         }
 
     }
 
     private fun createQrCode() {
-        bitmap = TextToImageEncode(sharedPreferencesManager.transmitterId)
+        bitmap = textToImageEncode(sharedPreferencesManager.transmitterId)
         binding.imageView.setImageBitmap(bitmap)
     }
 
     @Throws(WriterException::class)
-    fun TextToImageEncode(Value: String?): Bitmap {
-        val bitMatrix: BitMatrix
-        bitMatrix = MultiFormatWriter().encode(Value, BarcodeFormat.QR_CODE, 120, 120, null)
-
+    fun textToImageEncode(Value: String?): Bitmap {
+        val hints: MutableMap<EncodeHintType, Any> = EnumMap(EncodeHintType::class.java)
+        hints[EncodeHintType.CHARACTER_SET] = "UTF-8"
+        hints[EncodeHintType.MARGIN] = 0
+        val bitMatrix = QRCodeWriter().encode(Value, BarcodeFormat.QR_CODE, 140, 140, hints)
         val bitMatrixWidth = bitMatrix.width
         val bitMatrixHeight = bitMatrix.height
-        val pixels = IntArray(bitMatrixWidth * bitMatrixHeight)
-        for (y in 0 until bitMatrixHeight) {
-            val offset = y * bitMatrixWidth
-            for (x in 0 until bitMatrixWidth) {
-                pixels[offset + x] =
-                    if (bitMatrix[x, y]) Color.BLACK else Color.WHITE
+        val bitMap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.RGB_565)
+        for (x in 0 until bitMatrixWidth) {
+            for (y in 0 until bitMatrixHeight) {
+                bitMap.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
             }
         }
-        val bitmap: Bitmap =
-            Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444)
-        bitmap.setPixels(pixels, 0, 120, 0, 0, bitMatrixWidth, bitMatrixHeight)
-        return bitmap
+
+        return bitMap
     }
 
     private fun updateBackground() {
