@@ -396,6 +396,7 @@ class TrackingService : LifecycleService(), SensorsDataService {
 //        handlerBeat.removeCallbacks(runnableCodeBeat)
         sensorManager.unregisterListener(this)
         MessageEventBus.send(EventServiceDie())
+        MTCentralManager.getInstance(this).stopScan()
     }
 
 }

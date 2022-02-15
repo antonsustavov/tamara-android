@@ -185,6 +185,24 @@ class MainFragment : Fragment() {
                     LOCATION_CODE
                 )
             }
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ANSWER_PHONE_CALLS
+            ) != PackageManager.PERMISSION_GRANTED -> {
+                requestPermissions(arrayOf(Manifest.permission.ANSWER_PHONE_CALLS), 93679991)
+            }
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED -> {
+                requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE), 94379991)
+            }
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_CALL_LOG
+            ) != PackageManager.PERMISSION_GRANTED -> {
+                requestPermissions(arrayOf(Manifest.permission.READ_CALL_LOG), 93799915)
+            }
             else -> {
 
 //                requireContext().startForegroundService(

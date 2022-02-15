@@ -13,6 +13,13 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CALL_LOG"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+
+    <uses-permission android:name="android.permission.NEW_OUTGOING_CALL" />
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
 
     <uses-feature android:name="android.hardware.type.watch" />
 
@@ -47,6 +54,19 @@
 
         <service android:name=".service.TrackingService"
             android:foregroundServiceType="location|dataSync"/>
+
+        <receiver android:name=".service.ServiceReceiver" android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />-->
+<!--            </intent-filter>-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.CAL" />-->
+<!--            </intent-filter>-->
+        </receiver>
     </application>
 
 </manifest>
